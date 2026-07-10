@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026かけ橋セミナー 智慧集（有志保護者による情報共有）</title>
+<style>
+  :root{
+    --bg: #fdf8f1;
+    --paper: #fffdf9;
+    --ink: #4a3f35;
+    --ink-soft: #7a6d5e;
+    --accent: #e08a5b;
+    --accent-soft: #f6d9c2;
+    --accent-deep: #c66a3a;
+    --line: #ecdfcf;
+    --tag-boy: #d7e8f0;
+    --tag-boy-ink: #3f6a80;
+    --tag-girl: #f4dbe6;
+    --tag-girl-ink: #99516c;
+    --tag-neutral: #e7e2d4;
+    --tag-neutral-ink: #6b6152;
+    --tag-tokusei: #fff0c9;
+    --tag-tokusei-ink: #92721f;
+    --shadow: 0 2px 10px rgba(120, 90, 60, 0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+  }
+  a { color: var(--accent-deep); }
+
+  /* ---- Header ---- */
+  header.hero {
+    padding: 40px 20px 28px;
+    text-align: center;
+    background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  header.hero .kicker {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.03em;
+  }
+  header.hero h1 {
+    font-size: 26px;
+    margin: 0 0 10px;
+    font-weight: 700;
+  }
+  header.hero p.lead {
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .disclaimer {
+    max-width: 560px;
+    margin: 18px auto 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px dashed var(--accent-soft);
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  .disclaimer strong { color: var(--accent-deep); }
+
+  /* ---- Filter bar ---- */
+  .filterbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(253, 248, 241, 0.96);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 16px;
+  }
+  .filterbar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .filter-row:last-child { margin-bottom: 0; }
+  .filter-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+  .chip {
+    font-size: 12.5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink-soft);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+  .filter-status {
+    max-width: 900px;
+    margin: 8px auto 0;
+    font-size: 12px;
+    color: var(--accent-deep);
+    text-align: center;
+  }
+
+  /* ---- Scene nav ---- */
+  .scenenav {
+    max-width: 900px;
+    margin: 20px auto 0;
+    padding: 0 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .scenenav a {
+    font-size: 12.5px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 8px;
+  }
+  .scenenav a:hover { border-color: var(--accent); color: var(--accent-deep); }
+
+  /* ---- Main content ---- */
+  main { max-width: 900px; margin: 0 auto; padding: 30px 16px 60px; }
+
+  .scene {
+    margin-bottom: 44px;
+    scroll-margin-top: 130px;
+  }
+  .scene-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .scene-num {
+    font-size: 13px;
+    color: #fff;
+    background: var(--accent);
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .scene h2 { font-size: 19px; margin: 0; }
+  .scene-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 4px 0 18px 34px;
+    border-left: 3px solid var(--accent-soft);
+    padding-left: 12px;
+  }
+
+  .cardgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 16px 12px;
+    box-shadow: var(--shadow);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .card.hidden-by-filter { display: none; }
+  .card::before {
+    content: "回答サンプル";
+    position: absolute;
+    top: -9px;
+    right: 14px;
+    background: #b98a4a;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 2px 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(120, 90, 60, 0.25);
+  }
+
+  .sample-banner {
+    max-width: 560px;
+    margin: 12px auto 0;
+    font-size: 12.5px;
+    color: #7a5a1f;
+    background: #fff7e6;
+    border: 1px solid #f0d9a6;
+    border-radius: 10px;
+    padding: 10px 16px;
+    text-align: left;
+  }
+  .sample-banner strong { color: #b98a4a; }
+
+  .tagrow { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .tag {
+    font-size: 11px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .tag.boy { background: var(--tag-boy); color: var(--tag-boy-ink); }
+  .tag.girl { background: var(--tag-girl); color: var(--tag-girl-ink); }
+  .tag.neutral { background: var(--tag-neutral); color: var(--tag-neutral-ink); }
+  .tag.tokusei { background: var(--tag-tokusei); color: var(--tag-tokusei-ink); }
+
+  .card-summary {
+    font-size: 14px;
+    margin: 0 0 4px;
+  }
+  .card-summary .komatta { color: var(--ink-soft); }
+  .card-summary .kufuu { color: var(--ink); font-weight: 600; }
+
+  details.raw {
+    margin-top: 10px;
+    border-top: 1px dashed var(--line);
+    padding-top: 8px;
+  }
+  details.raw summary {
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--accent-deep);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  details.raw summary::-webkit-details-marker { display: none; }
+  details.raw summary::before {
+    content: "▸";
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+  details.raw[open] summary::before { transform: rotate(90deg); }
+  details.raw .raw-body {
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: #faf3ea;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    white-space: pre-wrap;
+  }
+  details.raw .raw-attr {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    text-align: right;
+    font-style: italic;
+  }
+
+  .empty-msg {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 13px;
+    padding: 30px 0;
+    display: none;
+  }
+
+  /* ---- Footer ---- */
+  footer {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    padding: 34px 16px 50px;
+  }
+  .footer-inner { max-width: 620px; margin: 0 auto; text-align: center; }
+  .footer-inner h3 { font-size: 16px; margin-bottom: 10px; }
+  .footer-inner p { font-size: 13.5px; color: var(--ink-soft); }
+  .cta-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .signoff {
+    margin-top: 24px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 600px) {
+    header.hero h1 { font-size: 21px; }
+    .filter-row { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="kicker">有志保護者による情報共有（非公式）</span>
+  <h1>2026かけ橋セミナー 智慧集</h1>
+  <p class="lead">
+    先輩保護者たちが体験した「困ったこと」と、そこから見つけた「工夫」を集めました。
+    お子さんの学年・性別に近い声から、少しでもスムーズに準備を進める一助になれたらと思います。
+  </p>
+  <div class="disclaimer">
+    <strong>このページについて：</strong>
+    これはGLAや運営が発信している公式の情報ではなく、かけ橋セミナーに参加した一人の保護者が、
+    個人的に声を持ち寄ってまとめているものです。何かのプロジェクトや団体ではなく、あくまで有志の取り組みです。
+    「先輩保護者の体験談」としてお読みください。プログラム中のAGさんの動き方などについては触れておらず、
+    親御さんが事前に知っておきたいことに絞っています。
+    <br><br>
+    <strong>情報の性質について：</strong>
+    運営の方針やプログラムはその年の青写真によって変わるため、ここに書かれている内容が今も正しいとは限りません。
+    また、ここにある声はあくまで「我が家の場合はこうだった」という一つの体験であり、
+    善意で回答してくださった保護者の方の個人的な工夫です。ご家庭や年度によって状況は異なりますので、
+    ケースバイケースであることをご理解のうえお読みください。個別・具体的な疑問や最新の情報については、
+    参加決定通知書やAGさん、所属本部に直接ご確認いただくようお願いします。
+  </div>
+  <p class="sample-banner">
+    <strong>ご注意：</strong>現在このページに載っている回答は、すべて完成イメージを伝えるための「回答サンプル」です。
+    実際に寄せられた声ではありません。アンケートで実際の回答が集まり次第、順次差し替えていきます。
+  </p>
+</header>
+
+<div class="filterbar">
+  <div class="filterbar-inner">
+    <div class="filter-row" id="filter-grade">
+      <span class="filter-label">学年</span>
+      <button class="chip active" data-filter-type="grade" data-value="all">すべて</button>
+      <button class="chip" data-filter-type="grade" data-value="低学年">小1〜3</button>
+      <button class="chip" data-filter-type="grade" data-value="高学年">小4〜6</button>
+      <button class="chip" data-filter-type="grade" data-value="中学">中学</button>
+      <button class="chip" data-filter-type="grade" data-value="高校">高校</button>
+    </div>
+    <div class="filter-row" id="filter-gender">
+      <span class="filter-label">性別</span>
+      <button class="chip active" data-filter-type="gender" data-value="all">両方</button>
+      <button class="chip" data-filter-type="gender" data-value="男子">男子</button>
+      <button class="chip" data-filter-type="gender" data-value="女子">女子</button>
+    </div>
+    <div class="filter-row" id="filter-tokusei">
+      <button class="chip" data-filter-type="tokusei" data-value="only">持病・発達特性・配慮ありの声のみ表示</button>
+    </div>
+  </div>
+  <p class="filter-status" id="filterStatus"></p>
+</div>
+
+<nav class="scenenav">
+  <a href="#scene1">① 出発前の持ち物準備</a>
+  <a href="#scene2">② 集合・受付</a>
+  <a href="#scene3">③ AGさんへの引き渡し</a>
+  <a href="#scene4">④ 3日間の生活（入浴〜起床）</a>
+  <a href="#scene5">⑤ 3日間のプログラム</a>
+  <a href="#scene6">⑥ お迎え・解散</a>
+</nav>
+
+<main>
+
+  <!-- SCENE 1 -->
+  <section class="scene" id="scene1">
+    <div class="scene-head"><span class="scene-num">1</span><h2>出発前の持ち物準備</h2></div>
+    <p class="scene-desc">パッキングの段階で見えてくる困りごと。「これで足りるかな」という不安は、みんな同じところで感じているようです。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="低学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小1男子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">持ち物すべてに名前を書くのが大変で、</span><span class="kufuu">名前スタンプを使ったら一気に楽になった。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">正直、初日は名前を手書きしていたら日が暮れそうになって心が折れました。急いで名前スタンプを買いに行って、靴下1枚まで全部押しました。持ち物が多い分、これは早めにやっておいてよかったです。</div>
+          <span class="raw-attr">— 小1男子の親（1人参加・今年が初参加）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="高学年" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">小4女子</span><span class="tag neutral">2回目</span></div>
+        <p class="card-summary"><span class="komatta">下着や部屋着が何枚必要か分からず、</span><span class="kufuu">洗濯・乾燥ができない前提で多めに持たせた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">初回のときは足りるだろうと思って少なめに詰めたら、汗と汚れで2日目には着るものがなくなりかけました。2回目は「向こうでは洗濯・乾燥ができない」前提で、多少多くても持たせるようにしています。</div>
+          <span class="raw-attr">— 小4女子の親（1人参加・2回目）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="中学" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">中1男子</span><span class="tag neutral">3〜5回目</span></div>
+        <p class="card-summary"><span class="komatta">忘れ物が心配だったので、</span><span class="kufuu">持ち物リストにチェック欄を作って親子で確認した。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">中学生にもなると自分で詰めさせたいのですが、毎回何かしら忘れます。持ち物リストを紙に書き出して、本人にチェックを入れさせながら一緒に確認する形にしたら、忘れ物がぐっと減りました。</div>
+          <span class="raw-attr">— 中1男子の親（1人参加・3〜5回目）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="低学年" data-gender="女子" data-tokusei="true">
+        <div class="tagrow"><span class="tag girl">小2女子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
+        <p class="card-summary"><span class="komatta">肌触りに敏感で新しいタオルを嫌がるため、</span><span class="kufuu">普段使い慣れたタオル・パジャマをそのまま持たせた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">感覚過敏があり、新しい肌触りのものだと落ち着かなくなってしまいます。今回は思い切って普段家で使っているタオルとパジャマをそのまま持たせました。見た目は多少くたびれていますが、本人の安心を優先しました。</div>
+          <span class="raw-attr">— 小2女子の親（1人参加・今年が初参加、感覚過敏あり）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 2 -->
+  <section class="scene" id="scene2">
+    <div class="scene-head"><span class="scene-num">2</span><h2>集合・受付（Tシャツ購入・CAカード撮影）</h2></div>
+    <p class="scene-desc">当日集合してから、Tシャツ購入やCAカード用の写真撮影など、バタバタしがちな受付タイム。ちょっとした事前知識で余裕が生まれます。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="低学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">Tシャツ購入に現金が必要と知らず慌てたが、</span><span class="kufuu">次回からは小銭を多めに用意している。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">受付でTシャツを買えることは知っていましたが、まさかその場で現金払いだとは思わず、財布の中身が足りずに焦りました。千円札と小銭を少し多めに用意しておくと安心だと思います。</div>
+          <span class="raw-attr">— 小3男子の親（1人参加・今年が初参加）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="高校" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">高1女子</span><span class="tag neutral">6回以上</span></div>
+        <p class="card-summary"><span class="komatta">受付の列が長く待ち時間があったので、</span><span class="kufuu">朝ごはんをしっかり食べさせてから向かった。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">集合時間ちょうどに行くとかなり並びます。空腹だと待ち時間がつらそうだったので、最近は朝ごはんをしっかり食べさせて、多少余裕を持って到着するようにしています。</div>
+          <span class="raw-attr">— 高1女子の親（1人参加・6回以上）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="高学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小5男子</span><span class="tag neutral">2回目</span></div>
+        <p class="card-summary"><span class="komatta">CAカードの写真撮影で表情が硬くなってしまったが、</span><span class="kufuu">前日に「写真を撮るよ」と伝えておいたら次はリラックスできた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">初回は「はい写真ね」と急に言われて固まった顔で撮られてしまいました。2回目は前もって「受付で写真を撮るからね」と伝えておいたら、笑顔とまではいかなくても自然な表情で撮れました。</div>
+          <span class="raw-attr">— 小5男子の親（1人参加・2回目）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 3 -->
+  <section class="scene" id="scene3">
+    <div class="scene-head"><span class="scene-num">3</span><h2>AGさんへお子さんを引き渡すタイミング</h2></div>
+    <p class="scene-desc">親子が離れる、いちばん緊張する瞬間。短い時間でどこまで伝えられるかが鍵になります。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="低学年" data-gender="男子" data-tokusei="true">
+        <div class="tagrow"><span class="tag boy">小1男子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
+        <p class="card-summary"><span class="komatta">場所見知り・人見知りが強く引き継ぎの瞬間に号泣してしまったが、</span><span class="kufuu">事前に特性をまとめたメモをAGさんに渡しておいた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">初めての場所・初めての人が苦手で、引き継ぎの瞬間は案の定大泣きでした。短い引き継ぎ時間で全部を口頭で説明するのは無理だと思い、A4一枚に「不安になりやすいポイント」「落ち着く声かけの例」を書いたメモを渡しておきました。後で聞いたら助かったと言ってもらえました。</div>
+          <span class="raw-attr">— 小1男子の親（1人参加・今年が初参加、人見知り・場所見知りあり）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="低学年" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">小2女子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">引き継ぎの短い時間で荷物の場所を説明しきれなかったので、</span><span class="kufuu">持ち物リストを荷物の見えるところに貼っておいた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">「これはどこに入っていますか」と聞かれても、その場でバッグを開けて説明する時間はほぼありませんでした。次からは持ち物リストと簡単な収納場所のメモをバッグの内側に貼っておこうと思います。</div>
+          <span class="raw-attr">— 小2女子の親（1人参加・今年が初参加）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="中学" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">中2男子</span><span class="tag neutral">3〜5回目</span></div>
+        <p class="card-summary"><span class="komatta">別れ際を長引かせると余計につらそうにしていたので、</span><span class="kufuu">あえてサッと切り替えて送り出すようにしている。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">「バイバイ」を何度も繰り返すと本人もこちらも辛くなるタイプでした。今は「行ってらっしゃい、楽しんできてね」と一言だけ言って、あえて振り返らずに離れるようにしています。結果的にその方が本人もすぐ気持ちを切り替えられているようです。</div>
+          <span class="raw-attr">— 中2男子の親（1人参加・3〜5回目）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 4 -->
+  <section class="scene" id="scene4">
+    <div class="scene-head"><span class="scene-num">4</span><h2>3日間の生活（入浴・就寝〜起床・食事・水分補給）</h2></div>
+    <p class="scene-desc">寝食や起床時の身支度にまつわることは、体力的にも精神的にも大きく影響します。特にお風呂はAGさん1人あたり15分ほどしか時間がないそうです。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="低学年" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">小3女子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">入浴時間が短く洗い残しが心配だったので、</span><span class="kufuu">出発前に短時間で体を洗う練習をしておいた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">AGさんがお世話してくれるお子さんが複数いるため、お風呂の時間は一人あたりそう長くないと聞いていました。出発前の1週間くらい、家でも「時間を計って体を洗う」練習をしておいたら本人も戸惑わずに済んだようです。</div>
+          <span class="raw-attr">— 小3女子の親（1人参加・今年が初参加）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="高学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小6男子</span><span class="tag neutral">2回目</span></div>
+        <p class="card-summary"><span class="komatta">初めての場所で寝付けなかったようだったが、</span><span class="kufuu">使い慣れた枕カバーを持たせたら2回目は落ち着いて眠れた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">1回目の参加後、「夜あんまり眠れなかった」と本人が言っていました。においや感触に敏感なタイプなので、2回目は普段使っている枕カバーだけ持たせてみたところ、よく眠れたと聞いて安心しました。</div>
+          <span class="raw-attr">— 小6男子の親（1人参加・2回目）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="低学年" data-gender="女子" data-tokusei="true">
+        <div class="tagrow"><span class="tag girl">小1女子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
+        <p class="card-summary"><span class="komatta">会場の砂埃で咳が出やすい子だったので、</span><span class="kufuu">マスクと常備薬を普段より多めに持たせた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">埃っぽい環境だとすぐ咳が出るタイプで心配でした。マスクを多めに、普段飲んでいる咳止めも念のため多めに持たせておきました。使わずに済めばそれでいいというくらいの気持ちで準備しています。</div>
+          <span class="raw-attr">— 小1女子の親（1人参加・今年が初参加、呼吸器が弱い）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="高校" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">高2女子</span><span class="tag neutral">6回以上</span></div>
+        <p class="card-summary"><span class="komatta">水筒の名前が小さくて読みにくかったので、</span><span class="kufuu">大きな文字でラミネートして貼るようにした。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">似たようなマイボトルを持っている子が多く、名前シールが小さいと自分のものか分かりにくいようでした。大きめの文字で名前を印刷してラミネートし、目立つ位置に貼るようにしたら間違いがなくなりました。</div>
+          <span class="raw-attr">— 高2女子の親（1人参加・6回以上）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 5 -->
+  <section class="scene" id="scene5">
+    <div class="scene-head"><span class="scene-num">5</span><h2>3日間のプログラム（野外研修・熱中症対策など）</h2></div>
+    <p class="scene-desc">気温差の大きい会場での野外研修や、夜遅くまで続く星空教室など、体力面の心構えをしておきたいポイントです。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="高学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小4男子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">暑さに弱いタイプなので野外研修が心配だったが、</span><span class="kufuu">塩分補給用のタブレットを普段より多めに持たせた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">夏場の外遊びで体調を崩しやすい子なので、野外研修があると聞いて心配していました。塩分タブレットとレジャー用の冷却タオルを持たせておいたら、本人も自分のタイミングで使えたようで大きな体調不良はありませんでした。</div>
+          <span class="raw-attr">— 小4男子の親（1人参加・今年が初参加、暑さに弱い）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="中学" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">中1女子</span><span class="tag neutral">2回目</span></div>
+        <p class="card-summary"><span class="komatta">星空教室が夜遅くまであり体力を心配していたが、</span><span class="kufuu">出発の1週間前から早寝早起きに慣らしておいた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">夜のプログラムがあると聞いて、普段夜更かし気味の生活リズムのままでは体力が持たないと思いました。1週間ほど前から少しずつ早寝早起きに切り替えておいたところ、当日も最後まで元気に過ごせたようです。</div>
+          <span class="raw-attr">— 中1女子の親（1人参加・2回目）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="低学年" data-gender="男子" data-tokusei="true">
+        <div class="tagrow"><span class="tag boy">小2男子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
+        <p class="card-summary"><span class="komatta">大人数での活動が苦手なので不安だったが、</span><span class="kufuu">少人数班での行動が多いプログラムだと知って安心できた。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">集団行動、特に大人数が一気に動く場面が苦手な子で、行かせるか最後まで悩みました。実際には割と少人数の班単位で動く時間が多く、本人にとっては思っていたよりも負担が少なかったようです。事前にプログラムの構成を知っておけたのは安心材料になりました。</div>
+          <span class="raw-attr">— 小2男子の親（1人参加・3〜5回目、集団活動が苦手）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SCENE 6 -->
+  <section class="scene" id="scene6">
+    <div class="scene-head"><span class="scene-num">6</span><h2>お迎え・解散（全プログラム終了後・荷物整理・帰宅）</h2></div>
+    <p class="scene-desc">全プログラム終了後は、荷物の受け渡しや整理でバタバタしがちです。落ち着いて対応するための工夫を集めました。</p>
+    <div class="cardgrid">
+
+      <div class="card" data-grade="高学年" data-gender="女子" data-tokusei="false">
+        <div class="tagrow"><span class="tag girl">小5女子</span><span class="tag neutral">3〜5回目</span></div>
+        <p class="card-summary"><span class="komatta">解散時に荷物を一つひとつ確認する時間があまり取れなかったので、</span><span class="kufuu">事前に持ち物リストを用意しておき、帰り際にサッと照らし合わせるようにした。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">解散のタイミングはどうしても慌ただしく、その場でゆっくり荷物を確認する余裕はありませんでした。行く前に作っておいた持ち物リストを、帰り際にさっと見ながらチェックするようにしたら、忘れ物の不安が減りました。</div>
+          <span class="raw-attr">— 小5女子の親（1人参加・3〜5回目）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="中学" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">中3男子</span><span class="tag neutral">6回以上</span></div>
+        <p class="card-summary"><span class="komatta">解散時刻ぎりぎりに行ったら迎えの車で混雑していたので、</span><span class="kufuu">次回からは少し早めに到着して待つようにしている。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">解散時刻きっかりに着くように行ったら、同じように考える保護者が多く、駐車場も含めてかなり混み合っていました。以来、少し早めに着いて外で待つようにしたら、落ち着いてお迎えできています。</div>
+          <span class="raw-attr">— 中3男子の親（1人参加・6回以上）</span>
+        </details>
+      </div>
+
+      <div class="card" data-grade="低学年" data-gender="男子" data-tokusei="false">
+        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">初参加</span></div>
+        <p class="card-summary"><span class="komatta">水筒が荷物に紛れて忘れ物になってしまったので、</span><span class="kufuu">次回は名前ラベルをもっと大きく貼るつもり。</span></p>
+        <details class="raw">
+          <summary>実際の声を見る</summary>
+          <div class="raw-body">解散のバタバタの中で水筒を忘れてしまい、後日事務局経由で受け取ることになりました。持ち物が多いとどうしても紛れやすいので、次はもっと目立つ名前ラベルを貼っておこうと思っています。</div>
+          <span class="raw-attr">— 小3男子の親（1人参加・今年が初参加）</span>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <p class="empty-msg" id="emptyMsg">この条件に当てはまる声はまだ集まっていません。フィルターを変えてお試しください。</p>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <h3>あなたの体験も、智慧集に加えませんか？</h3>
+    <p>
+      現在載っているのは完成イメージをお見せするための回答サンプルで、実際の声はこれから集めていきます。
+      「うちの場合はこうだった」という体験が、次に参加するご家族の安心材料になります。
+      匿名で、学年・性別などの属性のみ公開する形も選べます。よければぜひ教えてください。
+    </p>
+    <p style="font-size: 13px; color: var(--ink-soft); margin-top: 10px;">
+      「正解」や「模範解答」を求めているわけではありません。完璧な体験でなくても大丈夫です。
+      「どなたかの役に立てば」というお気持ちで、気軽に書き込んでいただけたら嬉しいです。
+    </p>
+    <a class="cta-btn" href="#" id="formLink">アンケートに回答する（Googleフォーム）</a>
+    <p class="signoff">
+      このページは、かけ橋セミナーに参加した一人の保護者が個人でまとめているものです。<br>
+      GLAや運営が発信する公式情報ではありませんので、あらかじめご了承ください。
+    </p>
+  </div>
+</footer>
+
+<script>
+  const state = { grade: 'all', gender: 'all', tokusei: false };
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const type = chip.dataset.filterType;
+      const value = chip.dataset.value;
+
+      if (type === 'tokusei') {
+        state.tokusei = !state.tokusei;
+        chip.classList.toggle('active', state.tokusei);
+      } else {
+        document.querySelectorAll(`.chip[data-filter-type="${type}"]`).forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state[type] = value;
+      }
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.card');
+    let anyVisible = false;
+
+    cards.forEach(card => {
+      const gradeOk = state.grade === 'all' || card.dataset.grade === state.grade;
+      const genderOk = state.gender === 'all' || card.dataset.gender === state.gender;
+      const tokuseiOk = !state.tokusei || card.dataset.tokusei === 'true';
+      const visible = gradeOk && genderOk && tokuseiOk;
+      card.classList.toggle('hidden-by-filter', !visible);
+      if (visible) anyVisible = true;
+    });
+
+    document.querySelectorAll('.scene').forEach(scene => {
+      const visibleCards = scene.querySelectorAll('.card:not(.hidden-by-filter)');
+      scene.style.display = visibleCards.length > 0 ? '' : 'none';
+    });
+
+    document.getElementById('emptyMsg').style.display = anyVisible ? 'none' : 'block';
+
+    const parts = [];
+    if (state.grade !== 'all') parts.push(document.querySelector(`.chip[data-filter-type="grade"][data-value="${state.grade}"]`).textContent);
+    if (state.gender !== 'all') parts.push(document.querySelector(`.chip[data-filter-type="gender"][data-value="${state.gender}"]`).textContent);
+    if (state.tokusei) parts.push('持病・発達特性・配慮あり');
+    const statusEl = document.getElementById('filterStatus');
+    statusEl.textContent = parts.length ? `表示中：${parts.join(' / ')} の声` : '';
+  }
+</script>
+
+</body>
+</html>
