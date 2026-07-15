@@ -154,7 +154,7 @@
   main { max-width: 900px; margin: 0 auto; padding: 30px 16px 60px; }
 
   .scene {
-    margin-bottom: 44px;
+    margin-bottom: 32px;
     scroll-margin-top: 130px;
   }
   .scene-head {
@@ -176,28 +176,36 @@
   .scene-desc {
     font-size: 13.5px;
     color: var(--ink-soft);
-    margin: 4px 0 18px 34px;
+    margin: 4px 0 14px 34px;
     border-left: 3px solid var(--accent-soft);
     padding-left: 12px;
   }
 
-  .cardgrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 14px;
+  .collecting-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 14px 34px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #2f7a5c;
+    background: #e3f3ea;
+    border: 1px dashed #6a9b6e;
+    border-radius: 20px;
+    padding: 5px 14px;
   }
-  .card {
+
+  /* ---- Scene summary card (consolidated) ---- */
+  .scene-card {
     position: relative;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 16px 16px 12px;
+    padding: 18px 20px 16px;
     box-shadow: var(--shadow);
-    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .card.hidden-by-filter { display: none; }
-  .card.sample {
-    padding-top: 40px;
+  .scene-card.sample-scene {
+    padding-top: 46px;
     border: 1.5px solid #d99a4e;
     background: repeating-linear-gradient(
       135deg,
@@ -207,7 +215,7 @@
       #fbf1e2 20px
     );
   }
-  .card.sample::before {
+  .scene-card.sample-scene::before {
     content: "⚠ 回答サンプル（実際の声ではありません）";
     position: absolute;
     top: 0;
@@ -223,33 +231,11 @@
     text-align: center;
     box-shadow: 0 1px 4px rgba(120, 60, 20, 0.3);
   }
-  .card.real::before {
-    content: "実際にいただいた声";
-    position: absolute;
-    top: -9px;
-    right: 14px;
-    background: #6a9b6e;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    padding: 2px 10px;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(90, 120, 90, 0.25);
-  }
-
-  .collecting-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 4px 0 18px 34px;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: #2f7a5c;
-    background: #e3f3ea;
-    border: 1px dashed #6a9b6e;
-    border-radius: 20px;
-    padding: 5px 14px;
+  .scene-summary-text {
+    font-size: 14.5px;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.8;
   }
 
   .sample-banner {
@@ -265,7 +251,7 @@
   }
   .sample-banner strong { color: #b98a4a; }
 
-  .tagrow { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .tagrow { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
   .tag {
     font-size: 11px;
     padding: 2px 9px;
@@ -277,44 +263,47 @@
   .tag.neutral { background: var(--tag-neutral); color: var(--tag-neutral-ink); }
   .tag.tokusei { background: var(--tag-tokusei); color: var(--tag-tokusei-ink); }
 
-  .card-summary {
-    font-size: 14px;
-    margin: 0 0 4px;
-  }
-  .card-summary .komatta { color: var(--ink-soft); }
-  .card-summary .kufuu { color: var(--ink); font-weight: 600; }
-
-  details.raw {
-    margin-top: 10px;
+  /* ---- Consolidated raw-answer list ---- */
+  .raw-list {
+    margin-top: 14px;
     border-top: 1px dashed var(--line);
-    padding-top: 8px;
+    padding-top: 10px;
   }
-  details.raw summary {
+  .raw-list summary {
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 700;
     color: var(--accent-deep);
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
   }
-  details.raw summary::-webkit-details-marker { display: none; }
-  details.raw summary::before {
+  .raw-list summary::-webkit-details-marker { display: none; }
+  .raw-list summary::before {
     content: "▸";
     display: inline-block;
     transition: transform 0.15s ease;
   }
-  details.raw[open] summary::before { transform: rotate(90deg); }
-  details.raw .raw-body {
+  .raw-list[open] summary::before { transform: rotate(90deg); }
+
+  .raw-item {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .raw-item:first-of-type { margin-top: 12px; }
+  .raw-item.hidden-by-filter { display: none; }
+  .raw-item .raw-body {
     font-size: 13px;
     color: var(--ink-soft);
     background: #faf3ea;
     border-radius: 8px;
     padding: 10px 12px;
-    margin-top: 8px;
+    margin-top: 2px;
     white-space: pre-wrap;
   }
-  details.raw .raw-attr {
+  .raw-item .raw-attr {
     display: block;
     margin-top: 6px;
     font-size: 11.5px;
@@ -387,9 +376,10 @@
     参加決定通知書やAGさん、所属本部に直接ご確認いただくようお願いします。
   </div>
   <p class="sample-banner">
-    <strong>ご注意：</strong>このページの回答は、多くが有志の保護者から<strong>実際にいただいた声</strong>（緑のラベル）です。
-    一部、まだ回答が集まっていないテーマには、完成イメージをお伝えするための「⚠ 回答サンプル」（オレンジの縞模様のカード）を残しています。
-    実際の回答が集まり次第、サンプルは順次差し替えていきます。
+    <strong>ご注意：</strong>各テーマは、寄せられた声をまとめて1枚のカードで表示しています。
+    「実際の声を見る」を開くと、複数の声をまとめてご覧いただけます。
+    まだ回答が集まっていないテーマには、完成イメージをお伝えするための「⚠ 回答サンプル」を残しています。
+    実際の回答が集まり次第、差し替えていきます。
   </p>
 </header>
 
@@ -431,48 +421,36 @@
   <section class="scene" id="scene1">
     <div class="scene-head"><span class="scene-num">1</span><h2>出発前の持ち物準備</h2></div>
     <p class="scene-desc">パッキングの段階で見えてくる困りごと。「これで足りるかな」という不安は、みんな同じところで感じているようです。</p>
-    <div class="cardgrid">
+    <div class="scene-card">
+      <p class="scene-summary-text">入浴グッズのまとめ方、忘れ物対策、荷物への記名や写真記録など、パッキングにまつわる工夫が集まっています。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">4</span>件）</summary>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">入浴グッズをどうパッキングするか迷ったが、</span><span class="kufuu">「お風呂に持っていくもの」をひとまとめにしてバッグごと荷造りしておいた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">髪の毛が長い場合、自分で結ぶ練習をしておくとよいです。入浴に行くときのバッグがあると便利で、濡れたタオルを持ち帰るときに脱いだ衣類が一緒に濡れてしまわないよう、買い物袋などもあるといいです。パッキングするときに「これはお風呂に持っていくもの」としてバッグに入れた状態で荷造りしておくといいと思います。</div>
           <span class="raw-attr">— 小6女子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">歯ブラシを紛失してしまったので、</span><span class="kufuu">次回からは予備を持たせるようにしている。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">歯ブラシを失くしてしまい、予備が必要でした。</div>
           <span class="raw-attr">— 小3男子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="" data-gender="" data-tokusei="false">
-        <div class="tagrow"><span class="tag neutral">きょうだい参加（当時小学生）</span></div>
-        <p class="card-summary"><span class="komatta">荷物がどうしても混ざってしまうので、</span><span class="kufuu">日にちごとに大きめのジップロックに分けてパッキングし、汚れ物用の袋も入れておいた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="" data-gender="" data-tokusei="false">
+          <div class="tagrow"><span class="tag neutral">きょうだい参加（当時小学生）</span></div>
           <div class="raw-body">パッキングは日にちごとに大きめのジップロックに分けて入れていました。汚れものをまとめる袋なども入れて、まとめるように伝えていました。（3日間終わった後の帰りのバッグの中身はグチャグチャで、セミナーを思う存分楽しんだんだなあという状態でした）</div>
           <span class="raw-attr">— きょうだいで参加の親（当時は小学生時代の体験）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="" data-gender="" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
-        <p class="card-summary"><span class="komatta">荷物の管理や、入浴時間の短さが心配だったので、</span><span class="kufuu">全ての持ち物に名前を書き、荷物は写真に撮って記録。女の子には吸水ヘアターバンも持たせた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="" data-gender="" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
           <div class="raw-body">全ての持ち物に名前を書きました。かけTシャツはその場で名前を書けるように油性ペンを持参。持ち物を並べてざっくり写真に撮っておくと安心です（男子の部屋は荷物があちこちに散乱してカオスでした）。入浴時間が短いので、女の子には吸水するヘアターバンを持たせました。</div>
           <span class="raw-attr">— 小6女子・小2男子の親（きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -480,58 +458,42 @@
   <section class="scene" id="scene2">
     <div class="scene-head"><span class="scene-num">2</span><h2>集合・受付（Tシャツ購入・CAカード撮影）</h2></div>
     <p class="scene-desc">当日集合してから、Tシャツ購入やCAカード用の写真撮影など、バタバタしがちな受付タイム。ちょっとした事前知識で余裕が生まれます。</p>
-    <div class="cardgrid">
+    <div class="scene-card">
+      <p class="scene-summary-text">Tシャツの準備・購入のコツ、受付の混雑対策、小淵沢駅周辺の情報など、当日の動き方に関する声が集まっています。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">5</span>件）</summary>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">Tシャツのサイズ表が届くのがギリギリで焦ったが、</span><span class="kufuu">届いたらすぐよく見て、親子それぞれのサイズ・色を事前に決めておくようにした。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">Tシャツのサイズ表が、けっこうギリギリに郵送されます。これをよく見て、事前にサイズを決めておくといいです。Tシャツチケットによる引き換えと追加の購入をどうするか、特にサイズは表示が通常と異なっていたりするので、対応表を見て判断するとよいです。子どもだけでなく、大人も自分のTシャツのサイズと色を決めておくとよいです。Tシャツ販売のお部屋は混雑するので、事前準備必須です。</div>
           <span class="raw-attr">— 小6女子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">受付やTシャツのサイズ合わせであっという間に時間が過ぎてしまうので、</span><span class="kufuu">オープニング前にトイレを済ませておくようにしている。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">受付やTシャツサイズ合わせ等で、あっという間にオープニングの時間になるので、受付前にでもトイレに行っておくと良いと思います。</div>
           <span class="raw-attr">— 小3男子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="" data-gender="" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">中1女子</span><span class="tag boy">高1男子</span><span class="tag neutral">きょうだい参加</span></div>
-        <p class="card-summary"><span class="komatta">Tシャツ購入は毎年混雑するので、</span><span class="kufuu">早めに並んで購入するようにしている。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="" data-gender="" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">中1女子</span><span class="tag boy">高1男子</span><span class="tag neutral">きょうだい参加</span></div>
           <div class="raw-body">Tシャツ購入に関しては毎年混雑するので、早めに行って購入をしていました。</div>
           <span class="raw-attr">— 中1女子・高1男子の親（きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="" data-gender="" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
-        <p class="card-summary"><span class="komatta">3日分のTシャツを揃えるのに悩んだので、</span><span class="kufuu">いとこや先輩ママからお下がりをもらって枚数を確保。無料の1枚も事前にサイズの目安をつけておいた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="" data-gender="" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
           <div class="raw-body">三日間分のかけ橋Tシャツを確保するために、いとこや先輩ママからお下がりをもらって枚数を揃えました。受付時に1枚無料でもらえますが、事前にサイズの目安を親も子もそれぞれ目処をつけておかないと、選ぶのにとても時間がかかります。</div>
           <span class="raw-attr">— 小6女子・小2男子の親（きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span></div>
-        <p class="card-summary"><span class="komatta">小淵沢駅前で昼食をどうするか迷ったが、</span><span class="kufuu">コンビニがないので事前に持参。駅の売店やそば屋は時間帯で閉まることがあるので要注意。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span></div>
           <div class="raw-body">小淵沢駅前にはコンビニがないため、昼食を持参することをお勧めします。駅には売店や、お弁当・お土産が買えるお店、そば屋がありますが、時間帯によっては開いていないため注意が必要です。また、送迎バスが始まる前に到着した場合、交流ルームで待つことができます（テーブル、椅子、自販機あり。エアコン無し）。</div>
           <span class="raw-attr">— 小6女子の親</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -539,38 +501,30 @@
   <section class="scene" id="scene3">
     <div class="scene-head"><span class="scene-num">3</span><h2>AGさんへお子さんを引き渡すタイミング</h2></div>
     <p class="scene-desc">親子が離れる、いちばん緊張する瞬間。短い時間でどこまで伝えられるかが鍵になります。</p>
-    <div class="cardgrid">
+    <div class="scene-card">
+      <p class="scene-summary-text">AGさんとの連絡手段や、引き継ぎ時の伝え方についての工夫が集まっています。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">3</span>件）</summary>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">最終日の待ち合わせ確認や、移動中の連絡が取りづらいことがあったので、</span><span class="kufuu">受付後、名札裏の研修会場・宿泊先情報を写真に撮っておくようにした。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">最終日の待ち合わせを確認しづらいことがありました。会場内はwifiが繋がりますが、移動しているときは通信状態が悪く、タイムリーにつながらない場合もあります。子どもを探すときのために、子どもの名札の裏に書かれている研修会場・宿泊先の情報は、受付したら写真に撮っておくといいです。</div>
           <span class="raw-attr">— 小6女子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">何かあったときの連絡が心配だったので、</span><span class="kufuu">AGさんに密に連絡を取り合えるようお願いしておいた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">何かあったら連絡を密に取り合えるようにお願いしました。</div>
           <span class="raw-attr">— 小3男子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="" data-gender="" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
-        <p class="card-summary"><span class="komatta">心配で細かく引き継ぎたくなるが、</span><span class="kufuu">事前に子どもへかけ橋のいのちを伝え、あとは祈り心でAGさんに托身するようにしている。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="" data-gender="" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
           <div class="raw-body">心配は尽きないと思いますが、細かい引き継ぎをしすぎるとエージェントさんも困ってしまうので、事前に子どもにはかけ橋のいのちを伝えて、集団生活の約束を守れるように伝えておきます。そして3日間、祈り心でエージェントさんに托身するようにしています。</div>
           <span class="raw-attr">— 小6女子・小2男子の親（きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -579,48 +533,36 @@
     <div class="scene-head"><span class="scene-num">4</span><h2>3日間の生活（入浴・就寝〜起床・食事・水分補給）</h2></div>
     <p class="scene-desc">寝食や起床時の身支度にまつわることは、体力的にも精神的にも大きく影響します。特にお風呂はAGさん1人あたり15分ほどしか時間がないそうです。</p>
     <p class="collecting-badge">📮 回答募集中！このテーマの実際の声はまだ集まっていません</p>
-    <div class="cardgrid">
+    <div class="scene-card sample-scene">
+      <p class="scene-summary-text">（サンプル）入浴時間の使い方、就寝時の工夫、体調管理など、これから集まる声のイメージです。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">4</span>件）</summary>
 
-      <div class="card sample" data-grade="低学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小3女子</span><span class="tag neutral">初参加</span></div>
-        <p class="card-summary"><span class="komatta">入浴時間が短く洗い残しが心配だったので、</span><span class="kufuu">出発前に短時間で体を洗う練習をしておいた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小3女子</span><span class="tag neutral">初参加</span></div>
           <div class="raw-body">AGさんがお世話してくれるお子さんが複数いるため、お風呂の時間は一人あたりそう長くないと聞いていました。出発前の1週間くらい、家でも「時間を計って体を洗う」練習をしておいたら本人も戸惑わずに済んだようです。</div>
           <span class="raw-attr">— 小3女子の親（1人参加・今年が初参加）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card sample" data-grade="高学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小6男子</span><span class="tag neutral">2回目</span></div>
-        <p class="card-summary"><span class="komatta">初めての場所で寝付けなかったようだったが、</span><span class="kufuu">使い慣れた枕カバーを持たせたら2回目は落ち着いて眠れた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小6男子</span><span class="tag neutral">2回目</span></div>
           <div class="raw-body">1回目の参加後、「夜あんまり眠れなかった」と本人が言っていました。においや感触に敏感なタイプなので、2回目は普段使っている枕カバーだけ持たせてみたところ、よく眠れたと聞いて安心しました。</div>
           <span class="raw-attr">— 小6男子の親（1人参加・2回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card sample" data-grade="低学年" data-gender="女子" data-tokusei="true">
-        <div class="tagrow"><span class="tag girl">小1女子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
-        <p class="card-summary"><span class="komatta">会場の砂埃で咳が出やすい子だったので、</span><span class="kufuu">マスクと常備薬を普段より多めに持たせた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="女子" data-tokusei="true">
+          <div class="tagrow"><span class="tag girl">小1女子</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
           <div class="raw-body">埃っぽい環境だとすぐ咳が出るタイプで心配でした。マスクを多めに、普段飲んでいる咳止めも念のため多めに持たせておきました。使わずに済めばそれでいいというくらいの気持ちで準備しています。</div>
           <span class="raw-attr">— 小1女子の親（1人参加・今年が初参加、呼吸器が弱い）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card sample" data-grade="高校" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">高2女子</span><span class="tag neutral">6回以上</span></div>
-        <p class="card-summary"><span class="komatta">水筒の名前が小さくて読みにくかったので、</span><span class="kufuu">大きな文字でラミネートして貼るようにした。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高校" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">高2女子</span><span class="tag neutral">6回以上</span></div>
           <div class="raw-body">似たようなマイボトルを持っている子が多く、名前シールが小さいと自分のものか分かりにくいようでした。大きめの文字で名前を印刷してラミネートし、目立つ位置に貼るようにしたら間違いがなくなりました。</div>
           <span class="raw-attr">— 高2女子の親（1人参加・6回以上）</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -628,48 +570,36 @@
   <section class="scene" id="scene5">
     <div class="scene-head"><span class="scene-num">5</span><h2>3日間のプログラム（野外研修・熱中症対策など）</h2></div>
     <p class="scene-desc">気温差の大きい会場での野外研修や、夜遅くまで続く星空教室など、体力面の心構えをしておきたいポイントです。</p>
-    <div class="cardgrid">
+    <div class="scene-card">
+      <p class="scene-summary-text">服装や虫除け対策、就寝・起床リズムの変化、AGさんとの安心できる関わり方など、プログラム中の過ごし方に関する声が集まっています。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">4</span>件）</summary>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">エアコンの効き方や野外研修の暑さ対策に迷ったが、</span><span class="kufuu">羽織る長袖・虫除け・日焼け止めを用意。水筒は行きだけ使い、会場の給水所を活用した。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">エアコンの風の当たり方が、お部屋の中でも異なるので、羽織る長袖はあってもいいです（寒がりな子は特に）。2日目は野外研修。虫除けは自分のものがあるといいです。虫が怖い子は、AGさんに伝えておくとよいです。高地なので、日焼け止めもあるといいです。水筒は行きしか役に立ちません。洗っても衛生的に乾かせる場所はないので、重いし持っていかない方がいいかもしれません。3日間、会場内の給水所の飲料水や麦茶、スポーツ飲料も用意されています。</div>
           <span class="raw-attr">— 小6女子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">普段と違う就寝・起床時間で疲れが出ることもあるようなので、</span><span class="kufuu">仮眠が必要になる場合もあると心づもりしておくとよい。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">通常と違う就寝、起床時間なので仮眠が必要になるお子さんがいらっしゃいました。</div>
           <span class="raw-attr">— 小3男子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="女子" data-tokusei="true">
-        <div class="tagrow"><span class="tag girl">低学年女子（当時）</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
-        <p class="card-summary"><span class="komatta">上の子は夜尿症の心配があり、下の子も初参加のときに思わぬハプニングがあったが、</span><span class="kufuu">事前にAGさんへ伝えておいたことで、都度さりげなく気にかけてもらえて安心できた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="女子" data-tokusei="true">
+          <div class="tagrow"><span class="tag girl">低学年女子（当時）</span><span class="tag tokusei">持病・発達特性・配慮あり</span></div>
           <div class="raw-body">小学生の頃、夜尿症だったので、そのことを事前にAGさんにお伝えしていました。心配なことをお伝えしていたので、都度さりげなく報告してくださり、安心して過ごすことができました。上の子は夜尿症の心配があったのですが、それまで漏らしたことのなかった下の子も、初めてのかけ橋セミナー参加のときにハプニングがありました。本人も驚いていたようですが、AGさんがさっと片付けて着替えのお手伝いなどをしてくださり、安心していました。</div>
           <span class="raw-attr">— 中1女子・高1男子の親（当時は小学生時代の体験、きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
-        <p class="card-summary"><span class="komatta">初めての参加で下の子が不安そうだったので、</span><span class="kufuu">2日目のお昼ごろに親子で会える時間があることを事前に伝えて安心させた。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小2男子</span><span class="tag neutral">きょうだい参加</span></div>
           <div class="raw-body">下の子には特に2日目の昼ごろに親子で会える時間があることを伝えて、安心できるようにしました。</div>
           <span class="raw-attr">— 小2男子の親（きょうだい参加）</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -677,28 +607,24 @@
   <section class="scene" id="scene6">
     <div class="scene-head"><span class="scene-num">6</span><h2>お迎え・解散（全プログラム終了後・荷物整理・帰宅）</h2></div>
     <p class="scene-desc">全プログラム終了後は、荷物の受け渡しや整理でバタバタしがちです。落ち着いて対応するための工夫を集めました。</p>
-    <div class="cardgrid">
+    <div class="scene-card">
+      <p class="scene-summary-text">お迎え時の様子や、帰宅報告についての声が届いています。</p>
+      <details class="raw-list">
+        <summary>実際の声を見る（<span class="raw-count">2</span>件）</summary>
 
-      <div class="card real" data-grade="低学年" data-gender="男子" data-tokusei="false">
-        <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
-        <p class="card-summary"><span class="komatta">特に困ったことはなかったが、</span><span class="kufuu">帰り道は爆睡するくらい、3日間しっかり楽しんできた様子だった。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="低学年" data-gender="男子" data-tokusei="false">
+          <div class="tagrow"><span class="tag boy">小3男子</span><span class="tag neutral">3〜5回目</span></div>
           <div class="raw-body">困ったことはないですが、帰り道は爆睡でした。</div>
           <span class="raw-attr">— 小3男子の親（3〜5回目）</span>
-        </details>
-      </div>
+        </div>
 
-      <div class="card real" data-grade="高学年" data-gender="女子" data-tokusei="false">
-        <div class="tagrow"><span class="tag girl">小6女子</span></div>
-        <p class="card-summary"><span class="komatta">車で帰るなどで帰宅報告が遅れそうな場合の対応に迷ったが、</span><span class="kufuu">帰宅が遅くなりそうなときは、事前にAGさんへ相談しておくと安心。</span></p>
-        <details class="raw">
-          <summary>実際の声を見る</summary>
+        <div class="raw-item" data-grade="高学年" data-gender="女子" data-tokusei="false">
+          <div class="tagrow"><span class="tag girl">小6女子</span></div>
           <div class="raw-body">帰着確認の報告をAGさんに入れますが、車で帰るなどで帰宅が遅くなり報告も遅れる場合、担当AGさんがその連絡を見れない可能性があり、全体に影響する恐れがあります。AGさんに、帰宅時間が遅くなる場合の対応の相談をしておいた方が良いかもしれません。</div>
           <span class="raw-attr">— 小6女子の親</span>
-        </details>
-      </div>
+        </div>
 
+      </details>
     </div>
   </section>
 
@@ -747,21 +673,23 @@
   });
 
   function applyFilters() {
-    const cards = document.querySelectorAll('.card');
+    const items = document.querySelectorAll('.raw-item');
     let anyVisible = false;
 
-    cards.forEach(card => {
-      const gradeOk = state.grade === 'all' || card.dataset.grade === state.grade;
-      const genderOk = state.gender === 'all' || card.dataset.gender === state.gender;
-      const tokuseiOk = !state.tokusei || card.dataset.tokusei === 'true';
+    items.forEach(item => {
+      const gradeOk = state.grade === 'all' || item.dataset.grade === state.grade;
+      const genderOk = state.gender === 'all' || item.dataset.gender === state.gender;
+      const tokuseiOk = !state.tokusei || item.dataset.tokusei === 'true';
       const visible = gradeOk && genderOk && tokuseiOk;
-      card.classList.toggle('hidden-by-filter', !visible);
+      item.classList.toggle('hidden-by-filter', !visible);
       if (visible) anyVisible = true;
     });
 
     document.querySelectorAll('.scene').forEach(scene => {
-      const visibleCards = scene.querySelectorAll('.card:not(.hidden-by-filter)');
-      scene.style.display = visibleCards.length > 0 ? '' : 'none';
+      const visibleItems = scene.querySelectorAll('.raw-item:not(.hidden-by-filter)');
+      scene.style.display = visibleItems.length > 0 ? '' : 'none';
+      const countEl = scene.querySelector('.raw-count');
+      if (countEl) countEl.textContent = visibleItems.length;
     });
 
     document.getElementById('emptyMsg').style.display = anyVisible ? 'none' : 'block';
@@ -773,8 +701,10 @@
     const statusEl = document.getElementById('filterStatus');
     statusEl.textContent = parts.length ? `表示中：${parts.join(' / ')} の声` : '';
   }
+
+  applyFilters();
 </script>
 
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
